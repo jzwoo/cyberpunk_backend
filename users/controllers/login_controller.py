@@ -6,7 +6,6 @@ from fastapi import HTTPException
 from fastapi import Response
 from fastapi.security import HTTPBasicCredentials
 from pymongo.database import Database
-
 from users.jwt.jwt_functions import generate_access_token, generate_refresh_token
 
 load_dotenv()
