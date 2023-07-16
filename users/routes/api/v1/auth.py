@@ -1,10 +1,11 @@
 import os
-from fastapi import APIRouter, Response, Request
+from fastapi import APIRouter, Response, Request, Depends
 from fastapi.security import HTTPBasicCredentials
 from users.config.db import client
 from users.controllers.login_controller import login_controller
 from users.controllers.logout_controller import logout_controller
 from users.controllers.refresh import refresh_controller
+from users.jwt.jwt_functions import verify_token
 from users.models.login import LoginSuccessResponse
 
 auth = APIRouter()
@@ -19,8 +20,8 @@ async def login(credentials: HTTPBasicCredentials, response: Response):
 
 
 @auth.post('/api/v1/logout', response_description="Logout")
-async def logout(request: Request, response: Response):
-    return logout_controller(connection_db, request, response)
+async def logout(response: Response, requester=Depends(verify_token)):
+    return logout_controller(connection_db, response, requester)
 
 
 @auth.get('/api/v1/refresh', response_description="Refresh", response_model=LoginSuccessResponse)

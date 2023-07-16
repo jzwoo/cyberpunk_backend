@@ -1,32 +1,18 @@
 import os
-import jwt
 from bson import ObjectId
-from dotenv import load_dotenv
 from typing import Mapping, Any
 from pymongo.database import Database
-from fastapi import Request, Response, HTTPException
-
-load_dotenv()
-SECRET_KEY = os.getenv('REFRESH_TOKEN_SECRET')
+from fastapi import Response
 
 
-def logout_controller(db: Database[Mapping[str, Any]], request: Request, response: Response):
-    cookies = request.cookies
-
-    if cookies is None or not cookies.__contains__('jwt'):
-        raise HTTPException(status_code=204)
-
-    refresh_token = request.cookies['jwt']
+def logout_controller(db: Database[Mapping[str, Any]], response: Response, requester):
     collection = db[os.getenv('mongo_database_users_collection')]
-    decoded = jwt.decode(refresh_token, SECRET_KEY, algorithms=["HS256"])
 
-    retrieved_user = collection.find_one({"_id": ObjectId(decoded['id'])})
-    if retrieved_user \
-            and retrieved_user.__contains__('refresh_token') \
-            and retrieved_user['refresh_token'] == refresh_token:
+    retrieved_user = collection.find_one({"_id": ObjectId(requester['id'])})
+    if retrieved_user:
         # delete token from database
         collection.find_one_and_update(
-            {"_id": ObjectId(decoded['id'])},
+            {"_id": ObjectId(requester['id'])},
             {'$unset': {"refresh_token": ''}},
         )
 
