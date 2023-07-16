@@ -1,7 +1,7 @@
 import os
 from fastapi import APIRouter, Response, Request, Depends
 from fastapi.security import HTTPBasicCredentials
-from users.config.db import client
+from config.db import client
 from users.controllers.login_controller import login_controller
 from users.controllers.logout_controller import logout_controller
 from users.controllers.refresh import refresh_controller

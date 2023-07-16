@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from users.config.db import client
+from config.db import client
 from users.controllers.delete_user_controller import delete_user_controller
 from users.controllers.get_user_controller import get_user_controller
 from users.controllers.get_users_controller import get_users_controller
