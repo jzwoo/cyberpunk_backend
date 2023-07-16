@@ -22,7 +22,7 @@ async def get_all_users():
 
 
 @user.get('/api/v1/users/{user_id}', response_description="Get user by ID", response_model=UserOut)
-async def get_all_users(user_id: str):
+async def get_user(user_id: str):
     return get_user_controller(connection_db, user_id)
 
 
