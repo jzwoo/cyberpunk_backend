@@ -1,12 +1,16 @@
+import os
+from dotenv import load_dotenv
 from typing import Mapping, Any
 from bson import ObjectId
 from fastapi import HTTPException
 from pymongo.database import Database
 from users.models.user import UserUpdate
 
+load_dotenv()
+
 
 def update_user_controller(db: Database[Mapping[str, Any]], user_id: str, updates: UserUpdate):
-    collection = db['users']
+    collection = db[os.getenv('mongo_database_users_collection')]
 
     # check if user exists
     retrieved_user = collection.find_one({"_id": ObjectId(user_id)})

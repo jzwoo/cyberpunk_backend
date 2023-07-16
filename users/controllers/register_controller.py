@@ -1,9 +1,13 @@
 import bcrypt
+import os
+from dotenv import load_dotenv
 from typing import Mapping, Any
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 from pymongo.database import Database
 from users.models.user import UserIn
+
+load_dotenv()
 
 
 def hash_password(plain_password):
@@ -15,7 +19,7 @@ def hash_password(plain_password):
 
 
 def register_controller(db: Database[Mapping[str, Any]], user_in: UserIn):
-    collection = db['users']
+    collection = db[os.getenv('MONGO_DATABASE_USERS_COLLECTION')]
 
     # check uniqueness of username
     duplicate_username = collection.find_one({'username': user_in.username})

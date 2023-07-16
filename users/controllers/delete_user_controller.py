@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from typing import Mapping, Any
 from bson import ObjectId
 from fastapi import HTTPException
@@ -5,9 +7,11 @@ from pymongo.database import Database
 from starlette import status
 from starlette.responses import JSONResponse
 
+load_dotenv()
+
 
 def delete_user_controller(db: Database[Mapping[str, Any]], user_id: str):
-    collection = db['users']
+    collection = db[os.getenv('mongo_database_users_collection')]
 
     # check if user exists
     retrieved_user = collection.find_one({"_id": ObjectId(user_id)})

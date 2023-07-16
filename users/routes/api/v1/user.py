@@ -7,9 +7,13 @@ from users.controllers.register_controller import register_controller
 from users.controllers.update_user_controller import update_user_controller
 from users.models.user import UserOut, UserIn, UserUpdate
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 user = APIRouter()
 # db
-connection_db = client['cyberpunk']
+connection_db = client[os.getenv('MONGO_DATABASE')]
 
 
 @user.get('/api/v1/users', response_description="List all users", response_model=list[UserOut])
