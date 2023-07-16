@@ -45,7 +45,7 @@ def verify_token(token: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
         user = {
             "name": payload['name'],
             "username": payload['username'],
-            "id": payload['_id'],
+            "id": payload['id'],
         }
 
         return user

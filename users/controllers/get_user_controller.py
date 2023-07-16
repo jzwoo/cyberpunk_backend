@@ -8,7 +8,10 @@ from pymongo.database import Database
 load_dotenv()
 
 
-def get_user_controller(db: Database[Mapping[str, Any]], user_id: str):
+def get_user_controller(db: Database[Mapping[str, Any]], user_id: str, requester):
+    if requester['id'] != user_id:
+        raise HTTPException(status_code=403)
+
     collection = db[os.getenv('mongo_database_users_collection')]
 
     retrieved_user = collection.find_one({"_id": ObjectId(user_id)})

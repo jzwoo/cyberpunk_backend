@@ -9,7 +9,10 @@ from users.models.user import UserUpdate
 load_dotenv()
 
 
-def update_user_controller(db: Database[Mapping[str, Any]], user_id: str, updates: UserUpdate):
+def update_user_controller(db: Database[Mapping[str, Any]], user_id: str, updates: UserUpdate, requester):
+    if requester['id'] != user_id:
+        raise HTTPException(status_code=403)
+
     collection = db[os.getenv('mongo_database_users_collection')]
 
     # check if user exists

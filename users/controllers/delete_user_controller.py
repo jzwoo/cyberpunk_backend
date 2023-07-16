@@ -10,7 +10,10 @@ from starlette.responses import JSONResponse
 load_dotenv()
 
 
-def delete_user_controller(db: Database[Mapping[str, Any]], user_id: str):
+def delete_user_controller(db: Database[Mapping[str, Any]], user_id: str, requester):
+    if requester['id'] != user_id:
+        raise HTTPException(status_code=403)
+
     collection = db[os.getenv('mongo_database_users_collection')]
 
     # check if user exists
