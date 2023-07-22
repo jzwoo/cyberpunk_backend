@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from admin.routes.v1.auth import admin
 from products.routes.api.v1.product import product
 from users.routes.api.v1.auth import auth
 from users.routes.api.v1.user import user
@@ -14,6 +15,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+app.include_router(admin)
 app.include_router(auth)
 app.include_router(user)
 app.include_router(product)
