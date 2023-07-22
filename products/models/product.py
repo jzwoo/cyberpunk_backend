@@ -1,12 +1,14 @@
 from bson import ObjectId
 from pydantic import BaseModel, Field, field_serializer
 
+from products.models.image import Image
+
 
 class ProductOut(BaseModel):
     id: ObjectId = Field(alias="_id")
     name: str
     description: str
-    imageURL: str
+    image: Image
     price: int
     quantity: int
     disabled: bool
