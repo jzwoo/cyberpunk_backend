@@ -28,7 +28,13 @@ def login_controller(db: Database[Mapping[str, Any]], credentials: HTTPBasicCred
 
     refresh_token = generate_refresh_token(retrieved_user)
     # set the response with a cookie
-    response.set_cookie(key='jwt', value=refresh_token, max_age=24 * 60 * 60 * 1000, httponly=True)
+    response.set_cookie(
+        key='jwt',
+        value=refresh_token,
+        max_age=24 * 60 * 60 * 1000,
+        httponly=True,
+        samesite="strict"
+    )
     # update the logged in user with a refresh token field to specify logged in
     collection.find_one_and_update(
         {'username': credentials.username},
