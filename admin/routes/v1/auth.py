@@ -5,6 +5,7 @@ from fastapi.security import HTTPBasicCredentials
 
 from admin.controllers.login_controller import login_controller
 from admin.controllers.logout_controller import logout_controller
+from admin.controllers.refresh_controller import refresh_controller
 from admin.jwt.jwt_functions import verify_token
 from admin.models.login import LoginSuccessResponse
 from config.db import client
