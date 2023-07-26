@@ -1,7 +1,18 @@
+from typing import Union
+
 from bson import ObjectId
 from pydantic import BaseModel, Field, field_serializer
 
 from products.models.image import Image
+
+
+class ProductIn(BaseModel):
+    name: str
+    description: str
+    image: Image
+    price: int
+    quantity: int
+    disabled: Union[bool, None] = False
 
 
 class ProductOut(BaseModel):

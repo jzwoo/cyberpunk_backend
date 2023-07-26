@@ -13,6 +13,7 @@ REFRESH_TOKEN_SECRET = os.getenv('ADMIN_REFRESH_TOKEN_SECRET')
 def generate_access_token(admin):
     payload = {
         "username": admin['username'],
+        "role": admin['role'],
         "id": str(admin['_id']),
         "iat": datetime.utcnow(),
         # 5 minutes expiration from current
@@ -26,6 +27,7 @@ def generate_access_token(admin):
 def generate_refresh_token(admin):
     payload = {
         "username": admin['username'],
+        "role": admin['role'],
         "id": str(admin['_id']),
         "iat": datetime.utcnow(),
         # 30 minutes expiration from current
@@ -42,6 +44,7 @@ def verify_token(token: HTTPAuthorizationCredentials = Depends(HTTPBearer())):
 
         user = {
             "username": payload['username'],
+            "role": payload['role'],
             "id": payload['id'],
         }
 
