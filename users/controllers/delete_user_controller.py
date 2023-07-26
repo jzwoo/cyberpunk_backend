@@ -4,8 +4,8 @@ from typing import Mapping, Any
 from bson import ObjectId
 from fastapi import HTTPException
 from pymongo.database import Database
-from starlette import status
-from starlette.responses import JSONResponse
+from starlette.responses import Response
+from starlette.status import HTTP_204_NO_CONTENT
 
 load_dotenv()
 
@@ -23,4 +23,4 @@ def delete_user_controller(db: Database[Mapping[str, Any]], user_id: str, reques
 
     delete_result = collection.delete_one({"_id": ObjectId(user_id)})
     if delete_result.deleted_count == 1:
-        return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content=None)
+        return Response(status_code=HTTP_204_NO_CONTENT)
