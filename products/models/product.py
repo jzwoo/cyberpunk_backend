@@ -3,7 +3,7 @@ from typing import Union
 from bson import ObjectId
 from pydantic import BaseModel, Field, field_serializer
 
-from products.models.image import Image
+from products.models.image import Image, UpdateImage
 
 
 class ProductIn(BaseModel):
@@ -13,6 +13,15 @@ class ProductIn(BaseModel):
     price: int
     quantity: int
     disabled: Union[bool, None] = False
+
+
+class UpdateProduct(BaseModel):
+    name: Union[str, None]
+    description: Union[str, None]
+    image: UpdateImage
+    price: Union[int, None]
+    quantity: Union[int, None]
+    disabled: Union[bool, None]
 
 
 class ProductOut(BaseModel):

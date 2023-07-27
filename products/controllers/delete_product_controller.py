@@ -7,11 +7,13 @@ from pymongo.database import Database
 from starlette.responses import Response
 from starlette.status import HTTP_204_NO_CONTENT
 
+from admin.models.roles import Roles
+
 load_dotenv()
 
 
 def delete_product_controller(db: Database[Mapping[str, Any]], product_id: str, requester):
-    if requester['role'] != 'admin':
+    if requester['role'] != Roles.admin:
         raise HTTPException(status_code=403)
 
     collection = db[os.getenv('MONGO_DATABASE_PRODUCTS_COLLECTION')]

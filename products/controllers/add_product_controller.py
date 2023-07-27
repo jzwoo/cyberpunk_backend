@@ -8,13 +8,14 @@ from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 from pymongo.database import Database
 
+from admin.models.roles import Roles
 from products.models.product import ProductIn
 
 load_dotenv()
 
 
 def add_product_controller(db: Database[Mapping[str, Any]], product: ProductIn, requester):
-    if requester['role'] != 'admin':
+    if requester['role'] != Roles.admin:
         raise HTTPException(status_code=403)
 
     collection = db[os.getenv('MONGO_DATABASE_PRODUCTS_COLLECTION')]

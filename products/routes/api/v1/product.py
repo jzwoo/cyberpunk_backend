@@ -8,7 +8,8 @@ from products.controllers.add_product_controller import add_product_controller
 from products.controllers.delete_product_controller import delete_product_controller
 from products.controllers.get_product_controller import get_product_controller
 from products.controllers.get_products_controller import get_products_controller
-from products.models.product import ProductOut, ProductIn
+from products.controllers.update_product_controller import update_product_controller
+from products.models.product import ProductOut, ProductIn, UpdateProduct
 
 load_dotenv()
 product = APIRouter()
@@ -34,3 +35,9 @@ async def add_product(product_in: ProductIn, requester=Depends(verify_token)):
 @product.delete('/api/v1/products/{product_id}', response_description="Delete existing product")
 async def delete_product(product_id: str, requester=Depends(verify_token)):
     return delete_product_controller(connection_db, product_id, requester)
+
+
+@product.put('/api/v1/products/{product_id}', response_description="Update existing product",
+             response_model=ProductOut)
+async def update_product(updates: UpdateProduct, product_id: str, requester=Depends(verify_token)):
+    return update_product_controller(connection_db, updates, product_id, requester)
